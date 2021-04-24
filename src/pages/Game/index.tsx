@@ -1,43 +1,77 @@
 import React, { useState } from "react";
 import "./index.less";
 
-import Board, { BoardProps, PieceInfo } from "./components/Board";
+import GameInfo, {
+    GameInfoProps,
+    WinnerInfo,
+} from "./components/GameInfo/index";
+import PlayerInfo from "./components/PlayerInfo/index";
+import Board, {
+    BoardProps,
+    PieceInfo,
+    PiecePosition,
+} from "./components/Board/index";
+import judgmentWinner from "./judgment";
 
 const BOARD_LEN = 15;
 const TAG_PIECE = [48, 56, 112, 168, 176];
 
 export default () => {
     const [pieces, setPieces] = useState<PieceInfo[]>(
-        Array(BOARD_LEN * BOARD_LEN).fill({ type: "" })
+        Array(BOARD_LEN * BOARD_LEN).fill({ type: undefined })
     );
     const [isBlackNext, setIsBlackNext] = useState<boolean>(true);
+    const [result, setResult] = useState<WinnerInfo | undefined>(undefined);
 
     const boardConfig: BoardProps = {
         rowLen: BOARD_LEN,
         colLen: BOARD_LEN,
-        handleSquareOnClick: (val) => {
+        handleSquareOnClick: (val: number, position: PiecePosition) => {
             console.log("click", val);
-
-            // console.log(pieces);
-
             console.log(pieces[val]);
-            if (pieces[val].type === "") {
-                const copyPieces = pieces.slice();
-                const piece: PieceInfo = {
-                    type: isBlackNext ? "black" : "white",
-                };
-                copyPieces[val] = piece;
 
+            // 如果点击的位置已有棋子，或者对局已经结束，则不能落棋，亦不做结果判定
+            if (pieces[val].type || result) return;
+
+            const curType = isBlackNext ? "black" : "white";
+
+            const copyPieces = pieces.slice();
+            const piece: PieceInfo = {
+                type: curType,
+                index: val,
+                position,
+            };
+            copyPieces[val] = piece;
+
+            setPieces(copyPieces);
+
+            // 每次落棋，做结果判定。
+            const isWinner = judgmentWinner(copyPieces, val);
+            console.log(isWinner);
+
+            if (isWinner) {
+                setResult({
+                    type: curType,
+                    name: "Bran",
+                });
+            } else {
                 setIsBlackNext(!isBlackNext);
-                setPieces(copyPieces);
             }
         },
         pieces,
         tagPiece: TAG_PIECE,
     };
+
+    const gameInfoConfig: GameInfoProps = {
+        isBlackPlayer: isBlackNext,
+        winner: result,
+    };
     return (
         <div className="container">
+            <GameInfo {...gameInfoConfig} />
+            <PlayerInfo type="black" name="电脑" />
             <Board {...boardConfig} />
+            <PlayerInfo type="white" name="Bran" position="right" />
         </div>
     );
 };

@@ -1,27 +1,41 @@
 import React from "react";
 
-import "./Board.less";
+import "./index.less";
 
+export interface PiecePosition {
+    row: number;
+    col: number;
+}
 export interface PieceInfo {
-    type: "white" | "black" | "";
+    type: "white" | "black" | undefined;
+    index?: number;
+    position?: PiecePosition;
 }
 
 interface SquareProps {
     value: number;
-    onClick: (val: number) => void;
+    onClick: (val: number, position: PiecePosition) => void;
     piece: PieceInfo;
     tagPiece: number[];
+    position: {
+        row: number;
+        col: number;
+    };
 }
 const Square = (props: SquareProps) => {
-    const { value, onClick, piece, tagPiece } = props;
+    const { value, onClick, piece, tagPiece, position } = props;
 
     return (
-        <span data-value={value} className="board-square">
+        <span
+            data-value={value}
+            className="board-square"
+            style={{ pointerEvents: piece.type ? "none" : "auto" }}
+        >
             <div
                 className={`piece ${tagPiece.includes(value) ? "tag" : ""} ${
                     piece.type
                 }`}
-                onClick={() => onClick(value)}
+                onClick={() => onClick(value, position)}
             ></div>
         </span>
     );
@@ -30,7 +44,7 @@ const Square = (props: SquareProps) => {
 export interface BoardProps {
     rowLen: number;
     colLen: number;
-    handleSquareOnClick: (val: number) => void;
+    handleSquareOnClick: (val: number, position: PiecePosition) => void;
     pieces: PieceInfo[];
     tagPiece: number[];
 }
@@ -52,6 +66,7 @@ export default (props: BoardProps) => {
                             piece={pieces[currentIndex]}
                             onClick={handleSquareOnClick}
                             tagPiece={tagPiece}
+                            position={{ row, col }}
                             key={col}
                         />
                     );
