@@ -1,6 +1,7 @@
 {
     "name": "gobang",
-    "version": "0.0.0",
+    "version": "1.0.1",
+    "homepage": "https://bran-nie.github.io/GoBang",
     "scripts": {
         "start": "vite",
         "build": "tsc && vite build",
