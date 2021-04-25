@@ -1,30 +1,32 @@
 // 棋子块的边长
-@squareSideLength: 40px;
+@squareSideLength: 95vw / 15;
+@maxSquareSideLength: 40px;
+
 @pieceSideLength: @squareSideLength * 0.5;
-// 一行棋子块的宽度
-@boardRowWidth: @squareSideLength * 15;
+@maxPieceSideLength: @maxSquareSideLength * 0.5;
 
 .board-container {
-    border-radius: 12px;
-    overflow: hidden;
     margin: 20px 0;
 
     .board-row {
         display: flex;
         justify-content: center;
-        width: @boardRowWidth;
         margin: 0 auto;
         overflow: hidden;
 
         .board-square {
-            width: @squareSideLength;
-            height: @squareSideLength;
+            width: calc(@squareSideLength);
+            max-width: @maxSquareSideLength;
+            height: calc(@squareSideLength);
+            max-height: @maxSquareSideLength;
             background-color: antiquewhite;
-            // border: 1px dashed #fff;
             position: relative;
             text-align: center;
-            line-height: @squareSideLength;
             box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            outline: none;
 
             &::before {
                 content: "";
@@ -55,13 +57,15 @@
 
             .piece {
                 // background-color: aquamarine;
-                height: @pieceSideLength;
-                width: @pieceSideLength;
+                height: calc(@pieceSideLength);
+                max-width: 20px;
+                width: calc(@pieceSideLength);
+                max-height: 20px;
                 position: relative;
                 z-index: 10;
                 display: inline-block;
                 cursor: pointer;
-                top: 4px;
+                outline: none;
 
                 &.tag {
                     background-color: #666;
