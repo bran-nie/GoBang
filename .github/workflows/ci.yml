@@ -13,6 +13,11 @@ jobs:
               with:
                   persist-credentials: false
 
+            - name: Install and Build
+                  run: |
+                      npm install
+                      npm run build
+
             - name: build & Deploy
               uses: JamesIves/github-pages-deploy-action@3.6.2
               with:
@@ -20,4 +25,3 @@ jobs:
                   BRANCH: gh-pages
                   FOLDER: dist
                   CLEAN: true
-                  BUILD_SCRIPT: npm install && npm run build
