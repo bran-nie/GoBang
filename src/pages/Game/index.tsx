@@ -36,9 +36,6 @@ export default () => {
         rowLen: BOARD_LEN,
         colLen: BOARD_LEN,
         handleSquareOnClick: (val: number, position: PiecePosition) => {
-            console.log("click", val);
-            console.log(pieces[val]);
-
             // 如果点击的位置已有棋子，或者对局已经结束，则不能落棋，亦不做结果判定
             if (pieces[val].type || result) return;
 
@@ -56,7 +53,6 @@ export default () => {
 
             // 每次落棋，做结果判定。
             const isWinner = judgmentWinner(copyPieces, val);
-            console.log(isWinner);
 
             if (isWinner) {
                 setResult({
