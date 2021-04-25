@@ -14,6 +14,7 @@
         justify-content: center;
         width: @boardRowWidth;
         margin: 0 auto;
+        overflow: hidden;
 
         .board-square {
             width: @squareSideLength;
@@ -82,14 +83,14 @@
         }
         // 首行和尾行的 col，其竖线为一半
         &:first-child {
-            border-radius: 40px 40px 0 0;
+            border-radius: 12px 12px 0 0;
             .board-square::after {
                 height: 50%;
                 top: 50%;
             }
         }
         &:last-child {
-            border-radius: 0 0 40px 40px;
+            border-radius: 0 0 12px 12px;
             .board-square::after {
                 height: 50%;
             }

@@ -23,6 +23,15 @@ export default () => {
     const [isBlackNext, setIsBlackNext] = useState<boolean>(true);
     const [result, setResult] = useState<WinnerInfo | undefined>(undefined);
 
+    const initGame = () => {
+        // 初始化棋盘
+        setPieces(Array(BOARD_LEN * BOARD_LEN).fill({ type: undefined }));
+        // 初始化黑棋先手
+        setIsBlackNext(true);
+        // 初始化对局结果
+        setResult(undefined);
+    };
+
     const boardConfig: BoardProps = {
         rowLen: BOARD_LEN,
         colLen: BOARD_LEN,
@@ -65,6 +74,7 @@ export default () => {
     const gameInfoConfig: GameInfoProps = {
         isBlackPlayer: isBlackNext,
         winner: result,
+        initGame,
     };
     return (
         <div className="container">
